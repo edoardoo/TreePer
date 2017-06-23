@@ -42,12 +42,11 @@
       ],
       "js": [
         "js/jquery/jquery.js",
-        "src/inject/inject.js",
         "src/inject/clubber/dist/clubber.js",
         "src/inject/clubber/lib/twgl.min.js",
         "src/inject/clubber/lib/shader.js",
         "src/inject/clubber/lib/common.js",
-        "src/inject/clubber/toy/main.js",
+        "src/inject/inject.js",
         "src/inject/index.js"
 
       ]
