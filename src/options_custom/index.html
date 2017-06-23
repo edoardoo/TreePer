@@ -7,40 +7,84 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title id="title"></title>
-        
+        <title id="title">TreePer</title>
+
         <!-- Stylesheets -->
         <link id="favicon" rel="icon" href="">
-        <link rel="stylesheet" href="lib/default.css" media="screen">
         <link rel="stylesheet" href="css/main.css" media="screen">
-        <link rel="stylesheet" href="css/setting.css" media="screen">
-        <link rel="stylesheet" href="custom.css" media="screen">
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
+
+
         <!-- JavaScripts -->
-        <script src="lib/mootools-core.js"></script>
-        <script src="lib/store.js"></script>
-        <script src="js/classes/tab.js"></script>
-        <script src="js/classes/setting.js"></script>
-        <script src="js/classes/search.js"></script>
-        <script src="js/classes/fancy-settings.js"></script>
-        <script src="i18n.js"></script>
-        <script src="js/i18n.js"></script>
-        <script src="manifest.js"></script>
-        <script src="settings.js"></script>
+        <!-- <script src="manifest.js"></script>
+        <script src="settings.js"></script> -->
     </head>
-    <body class="no-select">
-        <div id="sidebar" class="fancy">
-            <img id="icon" src="" alt=""><h1 id="settings-label"></h1>
-            <div id="tab-container">
-                <div id="search-container" class="tab">
-                    <input id="search" type="search" placeholder="">
+    <body>
+
+        <div class="container">
+          <div class="row">
+            <div class="col s8 offset-s2">
+              <div class="title">
+
+                <div class="row">
+                  <div class="col s2">
+                    <img width="100" src="icon.png"/>
+                  </div>
+                  <div class="col">
+                    <h2>TreePer</h5>
+                    </div>
+                  </div>
                 </div>
+                <div class="row">
+                  <div class="col s12">
+                    <h4>Share</h4>
+                    You can share the TreePer experience with friends sending them the youtube link.
+                    They will see the same visual effect with the same opacity.
+                  </div>
+
+                </div>
+
+                <hr>
+
+                <div class="row">
+                  <div class="col s12">
+                    <h4>Commands</h4>
+                    Use the keyobard.
+                    <table>
+                      <thead>
+                        <th>Button</th>
+                        <th>Action</th>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>[ , - </td>
+                          <td>lower opacity</td>
+                        </tr>
+                        <tr>
+                          <td>] , + </td>
+                          <td>higher opacity</td>
+                        </tr>
+                        <tr>
+                          <td>b</td>
+                          <td>previous shader</td>
+                        </tr>
+                        <tr>
+                          <td>n</td>
+                          <td>next shader</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+
             </div>
-        </div>
-        <div id="content">
-            <div id="search-result-container" class="tab-content">
+          </div>
+
+            <!-- <div id="search-result-container" class="tab-content">
                 <h2 id="search-label"></h2>
-            </div>
+            </div> -->
         </div>
     </body>
 </html>
