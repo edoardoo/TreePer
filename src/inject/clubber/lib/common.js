@@ -35,32 +35,8 @@ class ClubberMiddleware{
       this.initShaders();
       this.initCorrection();
       this.initOpacity();
-      this.checkUrlParams();
       // this.threshold();
   }
-
-  checkUrlParams(){
-    var shaderId = this.getParameterByName("3xS");
-    var opacity = this.getParameterByName("3xO");
-    if( shaderId !== "" || opacity !== "" ){
-      this.setVideoOpacity(opacity);
-      var newIndex;
-      var result = this.shaders.filter(( obj, index )=> {
-                      if(obj.id === shaderId){
-                        newIndex = index;
-
-                      }
-                      return obj.id == shaderId;
-                    });
-
-      if( result.length > 0 ){
-        this.currentShaderIndex = newIndex;
-        this.updateShader();
-
-      }
-    }
-  }
-
 
   getTags(){
     this.info = document.getElementById("info");
@@ -149,15 +125,25 @@ class ClubberMiddleware{
     }
   }
   initOpacity(){
-    var opacity = this.getCookieValue("treePerOpacity");
-    var newOpacity = 1;
-    if( typeof( opacity ) !== "undefined"){
-      newOpacity = opacity;
 
+    var cookieOpacity = this.getCookieValue("3xO");
+    var urlOpacity = this.getParameterByName("3xO");
+    var newOpacity = 1;
+
+    if( typeof( cookieOpacity ) !== "undefined"){
+      newOpacity = cookieOpacity;
+
+    }
+    if( urlOpacity !== ""){
+      newOpacity = urlOpacity;
     }
     this.setVideoOpacity(newOpacity);
   }
   initShaders(){
+
+
+
+
     this.shaderIds.forEach( (id)=> {
       var shader = new Shader( this.gl, {
         source: this.load(chrome.extension.getURL("src/inject/clubber/assets/shaders/" + id + ".fs")),
@@ -167,7 +153,20 @@ class ClubberMiddleware{
       shader.id = id;
       this.shaders.push(shader);
     });
-    this.currentShaders.push(this.shaders[this.currentShaderIndex]);
+
+    var cookieShader = this.getCookieValue("3xS");
+    var urlShader = this.getParameterByName("3xS");
+    let newShader = this.currentShaderIndex;
+
+    if( cookieShader !== ""){
+      newShader = cookieShader;
+
+    }
+    if( this.getShadeId( urlShader) != -1 ){
+      newShader = this.getShadeId( urlShader);
+    }
+
+    this.currentShaders.push(this.shaders[newShader]);
   }
 
   initCorrection(){
@@ -209,11 +208,30 @@ class ClubberMiddleware{
     });
   }
 
+  getShadeId(shaderId){
+    var newIndex;
+    var result = this.shaders.filter(( obj, index )=> {
+                    if(obj.id === shaderId){
+                      newIndex = index;
+
+                    }
+                    return obj.id == shaderId;
+                  });
+
+    if( result.length > 0 ){
+      return newIndex;
+
+    }else{
+      return -1;
+    }
+  }
+
   getParameterByName(name, search) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(search || location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
   }
+
 
 
 
@@ -310,10 +328,10 @@ class ClubberMiddleware{
 
   setVideoOpacity( opacity ){
     document.cookie = "treePerOpacity="+opacity;
-    this.setUrlParam( "3xO" , opacity);
     this.opacity = opacity;
 
     $(this.audio).css('opacity', opacity);
+    this.setUrlParam( "3xO" , opacity);
 
   }
 
@@ -329,7 +347,7 @@ class ClubberMiddleware{
 
   updateShader(){
 
-    // this.setUrlParam( "3xS" , this.shaders[this.currentShaderIndex].id);
+    this.setUrlParam( "3xS" , this.shaders[this.currentShaderIndex].id);
 
     var shader = this.shaders[this.currentShaderIndex];
     shader.startTime = this.currentTime/1000;
