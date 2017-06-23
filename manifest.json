@@ -2,8 +2,8 @@
   "name": "3per",
   "version": "0.0.1",
   "manifest_version": 2,
-  "description": "YouTube Visualizer",
-  "homepage_url": "http://edoardoo.com",
+  "description": "A WebGL YouTube Visualizer",
+  "homepage_url": "https://github.com/edoardoo/TreePer",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
