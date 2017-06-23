@@ -14,7 +14,7 @@ class TreePer{
 		var videoTagContainer = $('#movie_player');
 		videoTagContainer.append("<canvas class='animation'></canvas>"+"<div id=\"header\" style=\"z-index:0\" title=\"You can also drag & drop audio files.\">\n        <button onclick=\"change()\" >track</button>\n      <button onclick=\"maximize()\">full</button>\n      <button onclick=\"toggleRepeat(this)\" class=\"disabled\">loop</button>&nbsp;\n      <span>[1-9] switch shader </span>\n      <span>[0] smoothing </span>\n      <span id=\"smoothing\"></span>\n      <span>&nbsp;[V] view bands</span>\n      <span>&nbsp;<a id=\"orig\" target=\"_blank\">Go to original shader</a></span>\n      <div id=\"info\"></div>\n    </div>");
 		var self = this;
-		$('.ytp-right-controls').append("<button id='toggleTreePer' class='toggleAnimation ytp-button' >" + this.svgLogo + "</button>");
+		$('.ytp-right-controls').append("<button id='toggleTreePer' title='TreePer' aria-haspopup='true' class='toggleAnimation ytp-button' >" + this.svgLogo + "</button>");
 		// $(".ytp-right-controls").append("<button id='keep-button' class='ytp-keep-button ytp-button'>"+svgLogo+"</button>");
 		$('#toggleTreePer').click(function(){
 			self.toggleAnimation();

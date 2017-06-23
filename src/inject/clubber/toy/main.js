@@ -36,7 +36,7 @@ var uniforms = {
 //   twgl.setTextureFromElement(gl, uniforms.iChannel0, this);
 // })
 
-var shaders = [], currentShaders = [];
+var shaders = [], currentShaders = [], currentShaderIndex = 2;
 
 shaderIds.forEach(function (id) {
   var shader = new Shader(gl, {
@@ -47,7 +47,7 @@ shaderIds.forEach(function (id) {
   shaders.push(shader);
   shader.id = id;
 });
-currentShaders.push(shaders[2]);
+currentShaders.push(shaders[currentShaderIndex]);
 // var debugShader = new Shader(gl, {
 //     source: load("/clubber/assets/shaders/debug.fs"),
 //     uniforms: uniforms,
@@ -60,24 +60,90 @@ var debugBands = false;
 threshold();
 
 var transitionStart = 0, currentTime = 0;
+function incrementVideoOpacity(){
+  var videoTag = $('video');
+  var opacity = videoTag.css('opacity');
+  var newOpacity = (opacity < 1) ? opacity+0.1 : opacity;
+  videoTag.fadeTo(300, newOpacity);
+
+}
+
+function decrementVideoOpacity(){
+  var videoTag = $('video');
+  var opacity = videoTag.css('opacity');
+  var newOpacity = (opacity > 0) ? opacity-0.1 : opacity;
+  videoTag.fadeTo(300, newOpacity);
+}
+
+function emptyCurrentShader(){
+  while(currentShaders.length > 1) currentShaders.pop();
+
+}
+
+function updateShader(){
+  var shader = shaders[currentShaderIndex];
+  shader.startTime = currentTime/1000;
+  currentShaders.unshift(shader);
+  transitionStart = currentTime;
+}
+function nextShader() {
+  if( currentShaderIndex < shaders.length){
+    currentShaderIndex++;
+  }
+  updateShader();
+}
+
+function previousShader(){
+  if( currentShaderIndex > 0){
+    currentShaderIndex--;
+  }
+  updateShader();
+
+}
 
 function onKeyUp(e) {
   var v = parseInt(e.key);
   if(isNaN(v)){
     if(e.key === "v" || e.key === "V") debugBands = !debugBands;
+    if(e.key ==="+" || e.key ==="]" ){
+      incrementVideoOpacity();
+    }
+    if(e.key ==="-" || e.key ==="[" ){
+      decrementVideoOpacity();
+
+    }
+
+
+    if(e.key ==="b" ){
+      // if(shaders[v].id !== currentShaders[0].id){
+      previousShader();
+
+      // }
+    }
+    if(e.key ==="n" ){
+      // if(shaders[v].id !== currentShaders[0].id){
+
+      nextShader();
+      // }
+    }
     return;
   };
+
   if(!v){
     threshold();
     return;
   }
+
   v--;
+
+
+
   if(!shaders[v]) return;
   if(shaders[v].id === currentShaders[0].id && shaders.length > 1) {
-    transitionStart += 0.33 * (currentTime - transitionStart);
+    transitionStart += 0.50 * (currentTime - transitionStart);
   }
   if(shaders[v].id !== currentShaders[0].id){
-    while(currentShaders.length > 1) currentShaders.pop();
+    emptyCurrentShader();
     var shader = shaders[v];
     shader.startTime = currentTime/1000;
     currentShaders.unshift(shader);
@@ -87,6 +153,7 @@ function onKeyUp(e) {
 }
 
 window.addEventListener("keyup", onKeyUp);
+
 
 function showShaderOrigin(){
 
