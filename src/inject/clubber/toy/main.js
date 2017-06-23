@@ -62,17 +62,17 @@ threshold();
 var transitionStart = 0, currentTime = 0;
 function incrementVideoOpacity(){
   var videoTag = $('video');
-  var opacity = videoTag.css('opacity');
+  var opacity = parseFloat( videoTag.css('opacity'));
   var newOpacity = (opacity < 1) ? opacity+0.1 : opacity;
-  videoTag.fadeTo(300, newOpacity);
+  videoTag.css('opacity', newOpacity);
 
 }
 
 function decrementVideoOpacity(){
   var videoTag = $('video');
-  var opacity = videoTag.css('opacity');
+  var opacity = parseFloat( videoTag.css('opacity'));
   var newOpacity = (opacity > 0) ? opacity-0.1 : opacity;
-  videoTag.fadeTo(300, newOpacity);
+  videoTag.css('opacity', newOpacity);
 }
 
 function emptyCurrentShader(){
