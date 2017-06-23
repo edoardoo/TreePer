@@ -27,14 +27,40 @@ class ClubberMiddleware{
       this.initClubberObject();
       this.initConfigStructures();
       this.setAudioListener();
+      this.setVideoListener();
       this.addKeypressListener();
       this.enumerateDevices();
       this.configShadersAndTemplates();
+      this.initUniforms();
       this.initShaders();
       this.initCorrection();
-      this.initUniforms();
-      this.threshold();
+      this.initOpacity();
+      this.checkUrlParams();
+      // this.threshold();
   }
+
+  checkUrlParams(){
+    var shaderId = this.getParameterByName("3xS");
+    var opacity = this.getParameterByName("3xO");
+    if( shaderId !== "" || opacity !== "" ){
+      this.setVideoOpacity(opacity);
+      var newIndex;
+      var result = this.shaders.filter(( obj, index )=> {
+                      if(obj.id === shaderId){
+                        newIndex = index;
+
+                      }
+                      return obj.id == shaderId;
+                    });
+
+      if( result.length > 0 ){
+        this.currentShaderIndex = newIndex;
+        this.updateShader();
+
+      }
+    }
+  }
+
 
   getTags(){
     this.info = document.getElementById("info");
@@ -122,7 +148,15 @@ class ClubberMiddleware{
       }));
     }
   }
+  initOpacity(){
+    var opacity = this.getCookieValue("treePerOpacity");
+    var newOpacity = 1;
+    if( typeof( opacity ) !== "undefined"){
+      newOpacity = opacity;
 
+    }
+    this.setVideoOpacity(newOpacity);
+  }
   initShaders(){
     this.shaderIds.forEach( (id)=> {
       var shader = new Shader( this.gl, {
@@ -169,11 +203,42 @@ class ClubberMiddleware{
     }
   }
 
+  setVideoListener(){
+    $(this.audio).on('loadstart', ()=>{
+      this.setVideoOpacity( this.opacity );
+    });
+  }
 
   getParameterByName(name, search) {
     name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
     var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"), results = regex.exec(search || location.search);
     return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+  }
+
+
+
+  setUrlParam(paramName, paramValue) {
+
+    var url = window.location.href;
+    var hash = location.hash;
+    url = url.replace(hash, '');
+    if (url.indexOf(paramName + "=") >= 0)
+    {
+      var prefix = url.substring(0, url.indexOf(paramName));
+      var suffix = url.substring(url.indexOf(paramName));
+      suffix = suffix.substring(suffix.indexOf("=") + 1);
+      suffix = (suffix.indexOf("&") >= 0) ? suffix.substring(suffix.indexOf("&")) : "";
+      url = prefix + paramName + "=" + paramValue + suffix;
+    }
+    else
+    {
+      if (url.indexOf("?") < 0)
+      url += "?" + paramName + "=" + paramValue;
+      else
+      url += "&" + paramName + "=" + paramValue;
+    }
+    history.pushState(null, null, url);
+
   }
 
   enumerateDevices () {
@@ -216,22 +281,57 @@ class ClubberMiddleware{
   incrementVideoOpacity(){
     var opacity = parseFloat( $(this.audio).css('opacity'));
     var newOpacity = (opacity < 1) ? opacity + 0.1 : opacity;
-    $(this.audio).css('opacity', newOpacity);
+    if( newOpacity === 1){
+      this.stop();
+    }
+    this.setVideoOpacity(newOpacity);
 
   }
 
   decrementVideoOpacity(){
+
     var opacity = parseFloat( $(this.audio).css('opacity'));
+    if ( opacity === 1) {
+      this.start();
+    }
     var newOpacity = (opacity > 0) ? opacity - 0.1 : opacity;
-    $(this.audio).css('opacity', newOpacity);
+    this.setVideoOpacity(newOpacity);
   }
+
+  removeVideoOpacity(){
+    this.setVideoOpacity(0);
+
+  }
+
+  resetVideoOpacity(){
+    this.setVideoOpacity(1);
+
+  }
+
+  setVideoOpacity( opacity ){
+    document.cookie = "treePerOpacity="+opacity;
+    this.setUrlParam( "3xO" , opacity);
+    this.opacity = opacity;
+
+    $(this.audio).css('opacity', opacity);
+
+  }
+
+  getCookieValue(a) {
+    var b = document.cookie.match('(^|;)\\s*' + a + '\\s*=\\s*([^;]+)');
+    return b ? b.pop() : '';
+  }
+
 
   emptyCurrentShader(){
     while( this.currentShaders.length > 1) this.currentShaders.pop();
   }
 
   updateShader(){
-    var shader = this.shaders[currentShaderIndex];
+
+    // this.setUrlParam( "3xS" , this.shaders[this.currentShaderIndex].id);
+
+    var shader = this.shaders[this.currentShaderIndex];
     shader.startTime = this.currentTime/1000;
     this.currentShaders.unshift(shader);
     this.transitionStart = this.currentTime;
@@ -251,6 +351,17 @@ class ClubberMiddleware{
 
   }
 
+  start(){
+    this.isRunning = true;
+    this.startListening();
+    this.render(0);
+
+  }
+
+  stop(){
+    this.isRunning = false;
+
+  }
   render(time) {
     this.currentTime = time;
 
@@ -270,11 +381,11 @@ class ClubberMiddleware{
     if(this.currentShaders.length > 1){
       var delta = time - this.transitionStart;
       if(delta > this.transitionTime) {
-        this.currentShaders = [currentShaders.shift()];
+        this.currentShaders = [this.currentShaders.shift()];
         this.currentShaders[0].transition=1;
       } else {
         var tr = Math.pow(delta/this.transitionTime, 1.6);
-        this.currentShaders.forEach(function (shader, i) {
+        this.currentShaders.forEach( (shader, i) => {
           shader.transition = i ? 1-tr:tr;
           shader.render(this.data, true);
         });
@@ -303,11 +414,11 @@ class ClubberMiddleware{
 
       return;
     };
-
-    if(!v){
-      threshold();
-      return;
-    }
+    //
+    // if(!v){
+    //   threshold();
+    //   return;
+    // }
   }
 
   load (url, cb) {

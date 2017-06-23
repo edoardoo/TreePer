@@ -46,8 +46,8 @@
         "src/inject/clubber/lib/twgl.min.js",
         "src/inject/clubber/lib/shader.js",
         "src/inject/clubber/lib/common.js",
-        "src/inject/inject.js",
-        "src/inject/index.js"
+        "src/inject/index.js",
+        "src/inject/inject.js"
 
       ]
     }
