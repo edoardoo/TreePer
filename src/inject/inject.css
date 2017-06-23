@@ -1,0 +1,29 @@
+/**
+ * Place your custom CSS styles here.
+ **/
+body{
+  background: pink !important;
+}
+
+canvas{
+  /*display: none;*/
+}
+
+#player.animated video{
+  display: none;
+}
+
+#player.animated{
+  display: block;
+}
+
+
+.animation{
+  width: 100%;
+  height: 100%;
+}
+
+#toggleTreePer{
+
+    /*background: yellow;*/
+}
