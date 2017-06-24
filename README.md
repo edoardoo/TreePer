@@ -2,7 +2,9 @@
 ![TreePer Logo](/icons/icon128.png) **TreePer**
 
 ### A WebGL Youtube Visualizer
-![TreePer Demo]("https://media.giphy.com/media/PyMlMbza22tqM/giphy.gif")  
+<div style="text-align: center;">
+![TreePer Demo](https://media.giphy.com/media/PyMlMbza22tqM/giphy.gif)  
+</div>
 This is a little, quick and dirty project.  
 I've integrated the work of [Yannis Gravezas]("http://github.com/wizgrav/clubber") inside YouTube using a Chrome extension to avoid CORS and TOS violations.
 
