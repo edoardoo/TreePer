@@ -281,7 +281,7 @@ class ClubberMiddleware{
   }
 
   configShadersAndTemplates(){
-    this.shaderIds = ["4dsGzH","MsjSW3","4tlSzl", "MdlXRS","lslXDn","XsXXDn","MdBSDt","MlXSWX","XsBXWt"];
+    this.shaderIds = ["4dsGzH","MsjSW3","4tlSzl", "MdlXRS","lslXDn","XsXXDn","MlXSWX"];
     this.templates = ["0234", "0234", "0234", "0234"];
     this.shaderIds.forEach((s, i) => {
       var p = this.getParameterByName("sh"+i);
@@ -426,9 +426,9 @@ class ClubberMiddleware{
 
       if(e.key ==="-" || e.key ==="[" ) this.decrementVideoOpacity();
 
-      if(e.key ==="b" ) this.previousShader();
+      if(e.key ==="b" || e.key ==="B" ) this.previousShader();
 
-      if(e.key ==="n" ) this.nextShader();
+      if(e.key ==="n" || e.key ==="N" ) this.nextShader();
 
       return;
     };
