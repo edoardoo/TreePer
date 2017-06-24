@@ -4,7 +4,7 @@
 ### A WebGL Youtube Visualizer  
 ![TreePer Demo](https://media.giphy.com/media/PyMlMbza22tqM/giphy.gif)  
 This is a little, quick and dirty project.  
-I've integrated the work of [Yannis Gravezas]("http://github.com/wizgrav/clubber") inside YouTube using a Chrome extension to avoid CORS and TOS violations.
+I've integrated the work of [Yannis Gravezas](http://github.com/wizgrav/clubber) inside YouTube using a Chrome extension to avoid CORS and TOS violations.
 
 ### Controls
 
