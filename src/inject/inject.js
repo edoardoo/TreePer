@@ -23,7 +23,7 @@ class TreePer{
 			self.hideAnimation();
 		}).bind(self);
 		this.initClubberMiddleWare();
-		if(this.clubberMiddleware.opacity != 1){
+		if(this.clubberMiddleware.opacity != ""){
 			this.clubberMiddleware.start();
 
 		}
@@ -68,8 +68,20 @@ class TreePer{
 	// 	this.stop();
 	// }
 }
-var treePer = new TreePer();
-treePer.init();
+var initialized = false;
+$('#page').on('DOMSubtreeModified', (e)=>{
+
+	if($(e.currentTarget).hasClass('watch') && initialized == false){
+
+		initialized = true;
+		console.log("Initializing TreePer.");
+		console.log(initialized);
+		var treePer = new TreePer();
+
+		treePer.init();
+	}
+
+});
 //
 // chrome.extension.sendMessage({}, function(response) {
 // 	var readyStateCheckInterval = setInterval(function() {
