@@ -19,8 +19,8 @@ You can also use other keyboard controls.
 | --- | --- |
 | `[` or `-` | Decrease video opacity (animation will start automatically) |
 | `]` or `+` | Increase video opacity (animation will stop automatically)|
-| `b` or 'B' | Previous shader |
-| `n` or 'N' | Next shader |
+| `b` or `B` | Previous shader |
+| `n` or `N` | Next shader |
 
 
 ### Sharing
