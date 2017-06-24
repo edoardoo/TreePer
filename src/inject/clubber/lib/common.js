@@ -44,6 +44,7 @@ class ClubberMiddleware{
     this.audio.crossOrigin = "anonymous";
     this.canvas = document.querySelector("canvas");
     this.smoothing = document.getElementById("smoothing");
+    this.player = document.getElementById('player');
 
   }
 
@@ -373,11 +374,14 @@ class ClubberMiddleware{
     this.isRunning = true;
     this.startListening();
     this.render(0);
+    $(this.player).addClass('animated');
+
 
   }
 
   stop(){
     this.isRunning = false;
+    $(this.player).removeClass('animated');
 
   }
   render(time) {

@@ -42,31 +42,31 @@ class TreePer{
 
 	}
 	stop(){
+		this.clubberMiddleware.stop();
 		this.clubberMiddleware.resetVideoOpacity();
 	}
 
-	showAnimation(){
-		this.start();
-		this.player.addClass('animated');
-
-	}
+	// showAnimation(){
+	// 	this.start();
+	// 	this.player.addClass('animated');
+	//
+	// }
 
 	toggleAnimation(){
-		if( this.isAnimating ){
-			this.hideAnimation();
+		if( this.clubberMiddleware.isRunning ){
+			this.stop();
 		}else{
-			this.showAnimation();
+			this.start();
 		}
 
-		this.isAnimating = !this.isAnimating;
-		console.dir(this.isAnimating);
+		console.dir(this.clubberMiddleware.isRunning);
 	}
-
-	hideAnimation(){
-
-		$('#player').removeClass('animated');
-		this.stop();
-	}
+	//
+	// hideAnimation(){
+	//
+	// 	$('#player').removeClass('animated');
+	// 	this.stop();
+	// }
 }
 var treePer = new TreePer();
 treePer.init();

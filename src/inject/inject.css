@@ -10,6 +10,13 @@ body{
   display: block;
 }
 
+.animation{
+  opacity: 0;
+}
+
+#player.animated .animation{
+  opacity: 1;
+}
 
 .animation{
   width: 100%;
