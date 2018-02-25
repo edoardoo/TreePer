@@ -6,7 +6,7 @@ body{
 }
 
 
-#player.animated{
+.animated{
   display: block;
 }
 
@@ -14,7 +14,7 @@ body{
   opacity: 0;
 }
 
-#player.animated .animation{
+.animated{
   opacity: 1;
 }
 

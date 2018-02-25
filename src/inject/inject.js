@@ -61,27 +61,68 @@ class TreePer{
 
 		console.dir(this.clubberMiddleware.isRunning);
 	}
-	//
-	// hideAnimation(){
-	//
-	// 	$('#player').removeClass('animated');
-	// 	this.stop();
-	// }
 }
 var initialized = false;
-$('#page').on('DOMSubtreeModified', (e)=>{
 
-	if($(e.currentTarget).hasClass('watch') && initialized == false){
+function isTreeperLoaded(){
+	return typeof $("#toggleTreePer")[0] != "undefined";
+}
 
-		initialized = true;
-		console.log("Initializing TreePer.");
-		console.log(initialized);
-		var treePer = new TreePer();
+function bootstrap(  ){
 
-		treePer.init();
+		if( !$(".html5-video-container").hidden && !isTreeperLoaded()){
+
+			initialized = true;
+			console.log("Initializing TreePer.");
+			var treePer = new TreePer();
+
+			treePer.init();
+		}
+	// }
+}
+
+function setChangedVideoListener(){
+	var targetNode = $('ytd-watch')[0];
+	var config = { attributes: true, childList: false };
+
+	var callback = function(mutationsList) {
+		for(var mutation of mutationsList) {
+			if (mutation.type == 'attributes' && mutation.attributeName == "video-id") {
+				bootstrap();
+			}
+		}
+	};
+	var observer = new MutationObserver(callback);
+	observer.observe(targetNode, config);
+
+}
+
+$(document).on('DOMNodeInserted', function(e) {
+
+	if( e.target.tagName == "YTD-WATCH" &&  !isTreeperLoaded()  ){
+		setChangedVideoListener();
+
+	}
+
+	if( e.target.tagName == "VIDEO" &&  !isTreeperLoaded()  ){
+		// setChangedVideoListener();
+		bootstrap();
 	}
 
 });
+
+$(document).ready(function(){
+
+
+	if( typeof $("video")[0] != "undefined" ){
+		setChangedVideoListener();
+		bootstrap();
+	}
+
+
+});
+
+// Select the node that will be observed for mutations
 //
 // chrome.extension.sendMessage({}, function(response) {
 // 	var readyStateCheckInterval = setInterval(function() {

@@ -12,7 +12,7 @@ class ClubberMiddleware{
     this.thresholdLevel = 1;
     this.shaders = [];
     this.currentShaders = [];
-    this.currentShaderIndex = 2;
+    this.currentShaderIndex = 0;
     this.debugBands = false;
     this.transitionStart = 0;
     this.currentTime = 0;
@@ -160,11 +160,11 @@ class ClubberMiddleware{
     let newShader = this.currentShaderIndex;
 
     if( cookieShader !== ""){
-      newShader = cookieShader;
+      newShader = this.getShadeId(cookieShader);
 
     }
     if( this.getShadeId( urlShader) != -1 ){
-      newShader = this.getShadeId( urlShader);
+      newShader = this.getShadeId( urlShader );
     }
 
     this.currentShaders.push(this.shaders[newShader]);
@@ -282,7 +282,7 @@ class ClubberMiddleware{
   }
 
   configShadersAndTemplates(){
-    this.shaderIds = ["4dsGzH","MsjSW3","4tlSzl", "MdlXRS","lslXDn","XsXXDn","MlXSWX"];
+    this.shaderIds = ["MsjSW3","4dsGzH", "MdlXRS","XsXXDn", "lslXDn","MlXSWX", "4tlSzl"];
     this.templates = ["0234", "0234", "0234", "0234"];
     this.shaderIds.forEach((s, i) => {
       var p = this.getParameterByName("sh"+i);
@@ -328,10 +328,10 @@ class ClubberMiddleware{
   }
 
   setVideoOpacity( opacity ){
-    document.cookie = "treePerOpacity="+opacity;
     this.opacity = opacity;
-
     $(this.audio).css('opacity', opacity);
+
+    document.cookie = "3xO="+opacity;
     this.setUrlParam( "3xO" , opacity);
 
   }
@@ -347,8 +347,9 @@ class ClubberMiddleware{
   }
 
   updateShader(){
-
-    this.setUrlParam( "3xS" , this.shaders[this.currentShaderIndex].id);
+    let shaderId = this.shaders[this.currentShaderIndex].id;
+    this.setUrlParam( "3xS" , shaderId);
+    document.cookie = "3xS="+shaderId;
 
     var shader = this.shaders[this.currentShaderIndex];
     shader.startTime = this.currentTime/1000;
@@ -374,14 +375,14 @@ class ClubberMiddleware{
     this.isRunning = true;
     this.startListening();
     this.render(0);
-    $(this.player).addClass('animated');
+    $(this.canvas).addClass('animated');
 
 
   }
 
   stop(){
     this.isRunning = false;
-    $(this.player).removeClass('animated');
+    $(this.canvas).removeClass('animated');
 
   }
   render(time) {

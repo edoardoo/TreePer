@@ -1,6 +1,6 @@
 {
   "name": "TreePer",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "manifest_version": 2,
   "description": "A WebGL YouTube Visualizer",
   "homepage_url": "https://github.com/edoardoo/TreePer",
@@ -15,7 +15,10 @@
     "contentSettings",
     "idle",
     "notifications",
-    "https://*.youtube.com/*"
+    "https://*.youtube.com/*",
+    "http://*.youtube.com/*",
+    "http://youtu.be/*",
+    "https://youtu.be/*"
   ],
   "web_accessible_resources": [
     "src/inject/clubber/assets/shaders/*"
@@ -23,10 +26,10 @@
   "content_scripts": [
     {
       "matches": [
-      "http://youtube.com/*",
-      "https://youtube.com/*",
-      "http://www.youtube.com/*",
-      "https://www.youtube.com/*"
+        "https://*.youtube.com/*",
+        "http://*.youtube.com/*",
+        "http://youtu.be/*",
+        "https://youtu.be/*"
       ],
       "run_at": "document_end",
       "css": [
@@ -35,10 +38,10 @@
     },
     {
       "matches": [
-      "http://youtube.com/*",
-      "https://youtube.com/*",
-      "http://www.youtube.com/*",
-      "https://www.youtube.com/*"
+        "https://*.youtube.com/*",
+        "http://*.youtube.com/*",
+        "http://youtu.be/*",
+        "https://youtu.be/*"
       ],
       "js": [
         "js/jquery/jquery.js",
